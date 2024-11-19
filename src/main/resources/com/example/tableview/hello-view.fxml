@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="794.0" prefWidth="1273.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tableview.TableViewController">
+   <center>
+      <SplitPane dividerPositions="0.3328611898016997, 0.666194523135033" prefWidth="1186.0">
+         <items>
+            <VBox alignment="TOP_CENTER" prefHeight="439.0" prefWidth="250.0" spacing="20.0">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                </padding>
+               <Label text="Ordreliste">
+                  <font>
+                     <Font size="22.0" />
+                  </font>
+               </Label>
+               <TableView fx:id="ordreTableView" prefHeight="330.0" prefWidth="279.0">
+                 <columns>
+                   <TableColumn id="varenr" fx:id="kolonneOrdrenr" prefWidth="66.4835033416748" text="Ordrenr" />
+                   <TableColumn id="varebeskrivelse" fx:id="kolonneKundeNavn" prefWidth="183.01651763916016" text="Beskrivelse" />
+                     <TableColumn id="varebeskrivelse" fx:id="kolonneOrdreDato" prefWidth="111.970947265625" text="Dato" />
+                 </columns>
+               </TableView>
+               <HBox alignment="CENTER" spacing="20.0">
+                  <children>
+                     <Button layoutX="10.0" layoutY="10.0" onAction="#addNewOrdre" text="Tilføj Ordre" />
+                      <Button onAction="#removeLineFromOrdre" text="Fjern ordre" />
+                  </children>
+               </HBox>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="439.0" prefWidth="250.0" spacing="20.0">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <children>
+                  <Label text="Vareliste">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="vareTableView" prefHeight="330.0" prefWidth="279.0">
+                     <columns>
+                        <TableColumn fx:id="kolonneVareAmount" prefWidth="39.55694580078125" text="X" />
+                        <TableColumn id="varenr" fx:id="kolonneVarenr" prefWidth="94.94305419921875" text="varenr" />
+                        <TableColumn id="varebeskrivelse" fx:id="kolonneVarebeskrivelse" prefWidth="276.8360595703125" text="Beskrivelse" />
+                     </columns>
+                  </TableView>
+                  <HBox alignment="CENTER" spacing="20.0">
+                     <children>
+                        <Button onAction="#addNewVareToOrdre" text="Tilføj vare til ordre" />
+                        <Button onAction="#removeLineFromVare" text="Fjern vare fra ordre" />
+                     </children>
+                  </HBox>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/logo.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="439.0" prefWidth="319.0" spacing="20.0">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <children>
+                  <Label text="Lager">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="lagerTableView" prefHeight="330.0" prefWidth="279.0">
+                     <columns>
+                        <TableColumn fx:id="kolonneLagerVareAmount" prefWidth="43.113525390625" text="X" />
+                        <TableColumn id="varenr" fx:id="kolonneLagerVarenr" prefWidth="84.40484619140625" text="varenr" />
+                        <TableColumn id="varebeskrivelse" fx:id="kolonneLagerVareBeskrivelse" prefWidth="228.223876953125" text="Beskrivelse" />
+                     </columns>
+                  </TableView>
+                  <HBox alignment="CENTER" spacing="20.0">
+                     <children>
+                        <Button layoutX="10.0" layoutY="10.0" onAction="#addNewVareToLager" text="Tilføj vare" />
+                        <Button onAction="#removeLineFromLagerVare" text="Fjern vare" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </items>
+      </SplitPane>
+   </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#luk" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#openAboutWindow" text="About" />
+                  <MenuItem mnemonicParsing="false" onAction="#openTermsOfUseWindow" text="Terms of Use" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>
