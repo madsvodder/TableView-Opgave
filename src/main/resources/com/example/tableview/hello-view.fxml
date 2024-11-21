@@ -106,7 +106,9 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#luk" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#saveData" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadData" text="Load" />
+                  <MenuItem mnemonicParsing="false" onAction="#luk" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">

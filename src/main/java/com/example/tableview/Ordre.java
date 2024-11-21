@@ -5,20 +5,34 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Ordre {
-    private SimpleIntegerProperty ordrenr;
-    private SimpleStringProperty kundeNavn;
-    private SimpleStringProperty dato;
+public class Ordre implements Serializable {
+    private static final long serialVersionUID = 1L;
 
+    // Transient fields for JavaFX properties
+    private transient SimpleIntegerProperty ordrenr;
+    private transient SimpleStringProperty kundeNavn;
+    private transient SimpleStringProperty dato;
 
-    private ObservableList<Vare> vareListe = FXCollections.observableArrayList();
+    private transient ObservableList<Vare> vareListe = FXCollections.observableArrayList();
+
+    // Serializable backup fields
+    private int ordrenrValue;
+    private String kundeNavnValue;
+    private String datoValue;
+    private List<Vare> vareListeValue;
 
     public Ordre(int ordrenr, String kundeNavn, String dato) {
         this.ordrenr = new SimpleIntegerProperty(ordrenr);
         this.kundeNavn = new SimpleStringProperty(kundeNavn);
         this.dato = new SimpleStringProperty(dato);
+
+        this.ordrenrValue = ordrenr;
+        this.kundeNavnValue = kundeNavn;
+        this.datoValue = dato;
     }
 
     public void tilføjVare(Vare vare) {
@@ -55,5 +69,37 @@ public class Ordre {
 
     public void setDato(String dato) {
         this.dato.set(dato);
+    }
+
+    /**
+     * Custom serialization logic
+     */
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        // Backup values from transient fields
+        ordrenrValue = getOrdrenr();
+        kundeNavnValue = getKundeNavn();
+        datoValue = getDato();
+
+        // Convert ObservableList to a serializable List
+        vareListeValue = new ArrayList<>(vareListe);
+
+        // Serialize the object
+        out.defaultWriteObject();
+    }
+
+    /**
+     * Custom deserialization logic
+     */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        // Deserialize the object
+        in.defaultReadObject();
+
+        // Restore JavaFX properties
+        this.ordrenr = new SimpleIntegerProperty(ordrenrValue);
+        this.kundeNavn = new SimpleStringProperty(kundeNavnValue);
+        this.dato = new SimpleStringProperty(datoValue);
+
+        // Restore ObservableList
+        this.vareListe = FXCollections.observableArrayList(vareListeValue);
     }
 }

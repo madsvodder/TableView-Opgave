@@ -11,9 +11,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Executor;
+
 
 public class TableViewController {
 
@@ -45,9 +48,9 @@ public class TableViewController {
     @FXML
     private TableColumn<Vare, Integer> kolonneVareAmount;
 
-    private final ObservableList<Vare> vareTabeldata = FXCollections.observableArrayList();
-    private final ObservableList<Ordre> ordreTabelData = FXCollections.observableArrayList();
-    private final ObservableList<Vare> lagerTabelData = FXCollections.observableArrayList();
+    private ObservableList<Vare> vareTabeldata = FXCollections.observableArrayList();
+    private ObservableList<Ordre> ordreTabelData = FXCollections.observableArrayList();
+    private ObservableList<Vare> lagerTabelData = FXCollections.observableArrayList();
 
     public void initialize() {
         vareTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -462,5 +465,63 @@ public class TableViewController {
         // Vist som en modal dialog
         aboutAlert.showAndWait();
     }
+
+
+    // Saving and loading
+    @FXML
+    public void saveData() {
+        try {
+            // Create output stream to save data
+            FileOutputStream file = new FileOutputStream("data.txt");
+            ObjectOutputStream out = new ObjectOutputStream(file);
+
+            // Convert ObservableList to ArrayList for serialization
+            List<Ordre> serializableOrdreList = new ArrayList<>(ordreTabelData);
+            List<Vare> serializableLagerList = new ArrayList<>(lagerTabelData);
+
+            // Serialize the entire lists
+            out.writeObject(serializableOrdreList);
+            out.writeObject(serializableLagerList);
+
+            System.out.println("Data has been serialized");
+            // Close streams
+            out.close();
+            file.close();
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void loadData() {
+        try {
+            // Create input stream to load data
+            FileInputStream file = new FileInputStream("data.txt");
+            ObjectInputStream in = new ObjectInputStream(file);
+
+            // Deserialize the list of Ordre objects
+            List<Ordre> deserializedList = (List<Ordre>) in.readObject();
+            List<Vare> deserializedLagerList = (List<Vare>) in.readObject();
+
+            // Clear existing data and repopulate ObservableList
+            ordreTabelData.clear();
+            ordreTabelData.addAll(deserializedList);
+            lagerTabelData.clear();
+            lagerTabelData.addAll(deserializedLagerList);
+
+            System.out.println("Data has been deserialized");
+
+            // Close streams
+            in.close();
+            file.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
