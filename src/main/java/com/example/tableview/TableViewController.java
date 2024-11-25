@@ -554,4 +554,34 @@ public class TableViewController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void saveToJSON() {
+        DataSaver dataSaver = new DataSaver();
+
+        // Ensure there is at least one order to save
+        if (ordreTabelData != null && !ordreTabelData.isEmpty()) {
+            // Save the first Ordre object from the list to JSON
+            Ordre ordreToSave = ordreTabelData.get(0); // Get the first item (you can adjust this as needed)
+            dataSaver.saveOrdre(ordreToSave);
+        } else {
+            System.out.println("No Ordre data available to save.");
+        }
+    }
+
+    @FXML
+    public void loadFromJSON() {
+        DataSaver dataSaver = new DataSaver();
+
+        // Load the Ordre object from the JSON file
+        Ordre loadedOrdre = dataSaver.loadOrdre();
+
+        if (loadedOrdre != null) {
+            // If successful, print and add the loaded Ordre to the ObservableList (e.g., table)
+            System.out.println("Loaded Ordre: " + loadedOrdre);
+            ordreTabelData.add(loadedOrdre);  // Add the loaded Ordre to your data list (ObservableList)
+        } else {
+            System.out.println("Failed to load Ordre from JSON.");
+        }
+    }
 }

@@ -106,6 +106,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#saveToJSON" text="Save to JSON" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadFromJSON" text="Load" />
               <MenuItem mnemonicParsing="false" onAction="#saveData" text="Save" />
                   <MenuItem mnemonicParsing="false" onAction="#loadData" text="Load" />
                   <MenuItem mnemonicParsing="false" onAction="#luk" text="Close" />

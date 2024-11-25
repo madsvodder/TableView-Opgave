@@ -13,6 +13,8 @@ public class Ordre implements Serializable {
 
     private ArrayList<Vare> vareListe = new ArrayList<>();
 
+    // Default constructor (required for Jackson deserialization)
+    public Ordre() {}
 
     public Ordre(int ordrenr, String kundeNavn, String dato) {
         this.ordrenr = ordrenr;
