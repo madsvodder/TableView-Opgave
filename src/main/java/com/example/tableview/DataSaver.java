@@ -23,7 +23,7 @@ public class DataSaver {
 
             // Serialize the list of Ordre objects to JSON and write it to the file
             objectMapper.writeValue(file, ordreList);
-            System.out.println("All Ordre objects saved to all_orders.json");
+            logger.info("All Ordre objects saved to all_orders.json");
 
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
@@ -52,5 +52,43 @@ public class DataSaver {
         }
 
         return ordresArray;
+    }
+
+    // Save all Vare in lager into a single json file
+    public void saveLager(ArrayList<Vare> vareListe) {
+        try {
+            // Specify the file where all varer will be saved
+            File file = new File("lager.json");
+
+            // Serialize the list of Ordre objects to JSON and write it to the file
+            objectMapper.writeValue(file, vareListe);
+            logger.info("All varer objects saved to lager.json");
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ArrayList<Vare> loadLager() {
+        ArrayList<Vare> vareArray = new ArrayList<>();
+
+        try {
+            // Specify the file where all orders are saved
+            File file = new File("lager.json");
+
+            // Check if the file exists and is not empty
+            if (file.exists() && file.length() > 0) {
+                // Deserialize the JSON file into a list of Ordre objects
+                vareArray = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Vare.class));
+                logger.info("All Ordre objects loaded successfully.");
+            } else {
+                logger.info("No orders found to load.");
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error reading or deserializing the JSON file: " + e.getMessage());
+        }
+
+        return vareArray;
     }
 }

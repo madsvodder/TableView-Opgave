@@ -7,7 +7,6 @@ public class Vare implements Serializable {
     @Serial
     private static final long serialVersionUID = 2L;
 
-    // Transient fields for JavaFX properties
     private int varenr;
     private String varebeskrivelse;
     private int amount;

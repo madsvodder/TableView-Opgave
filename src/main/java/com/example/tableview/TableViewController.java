@@ -60,36 +60,15 @@ public class TableViewController {
         lagerTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         // Kolonnerne forbindes
-
-        //kolonneVarenr.setCellValueFactory(new PropertyValueFactory<>("varenr"));
-        //kolonneVarebeskrivelse.setCellValueFactory(new PropertyValueFactory<>("varebeskrivelse"));
-        //kolonneLagerVarenr.setCellValueFactory(new PropertyValueFactory<>("varenr"));
-        //kolonneLagerVareBeskrivelse.setCellValueFactory(new PropertyValueFactory<>("varebeskrivelse"));
-        //kolonneKundeNavn.setCellValueFactory(new PropertyValueFactory<>("kundeNavn"));
-        //kolonneOrdreDato.setCellValueFactory(new PropertyValueFactory<>("dato"));
-        //kolonneOrdrenr.setCellValueFactory(new PropertyValueFactory<>("ordrenr"));
-        //kolonneLagerVareAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        //kolonneVareAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-
         kolonneVarenr.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getVarenr()));
-
-
         kolonneVarebeskrivelse.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVarebeskrivelse()));
-
         kolonneLagerVarenr.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getVarenr()));
-
         kolonneLagerVareBeskrivelse.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVarebeskrivelse()));
-
         kolonneKundeNavn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getKundeNavn()));
-
         kolonneOrdreDato.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDato()));
-
         kolonneOrdrenr.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getOrdrenr()));
-
         kolonneLagerVareAmount.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getAmount()));
-
         kolonneVareAmount.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getAmount()));
-
 
         // Sæt data i tabellerne
         vareTableView.setItems(vareTabeldata);
@@ -117,6 +96,8 @@ public class TableViewController {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
             }
         });
+
+        loadAllFromJSON();
     }
 
 
@@ -233,17 +214,23 @@ public class TableViewController {
             }
 
             selectedVare.setAmount(selectedVare.getAmount() - amountToAdd);
-            //vareTableView.setItems(ordre.getVareListe());
-            for (Vare vare : ordre.getVareListe()) {
-                vareTableView.getItems().add(vare);
-            }
 
+            // Avoid adding duplicates to the vareTableView using the utility method
+            for (Vare vare : ordre.getVareListe()) {
+                if (!isVareInTable(vare)) {
+                    vareTableView.getItems().add(vare);
+                }
+            }
 
             lagerTableView.refresh();
             vareTableView.refresh();
         } else {
             showAlert("Ikke nok antal i lager?");
         }
+    }
+    // Utility method to check if a Vare is already in the vareTableView
+    private boolean isVareInTable(Vare vare) {
+        return vareTableView.getItems().contains(vare);
     }
 
     public void showAlert(String popupText) {
@@ -269,20 +256,7 @@ public class TableViewController {
 
     // Vare Metoder //
 
-    // Check if a "Vare" is already in the order
-    private boolean isVareAlreadyInOrdre(Vare vare, Ordre ordre) {
-        if (ordre == null || ordre.getVareListe() == null) {
-            return false;
-        }
 
-        // Gennemgår varerne i ordren for at se, om varen allerede er der
-        for (Vare ordreVare : ordre.getVareListe()) {
-            if (ordreVare.getVarenr() == vare.getVarenr()) {
-                return true; // Varen findes allerede i ordren
-            }
-        }
-        return false; // Varen findes ikke i ordren
-    }
 
     // Check if a "Vare" is already in out "Lager", so we cant add the same item.
     private boolean isVareAlreadyInLager(Vare vare) {
@@ -558,16 +532,28 @@ public class TableViewController {
     public void saveAllToJSON() {
         DataSaver dataSaver = new DataSaver();
 
+        // Ordre //
+
         // Convert your data list to an ArrayList to pass to the save method
         ArrayList<Ordre> ordreList = new ArrayList<>(ordreTabelData);
 
         // Save all orders to the JSON file
         dataSaver.saveAllOrdre(ordreList);
+
+        // Varer //
+
+        // Convert your data list to an ArrayList to pass to the save method
+        ArrayList<Vare> vareList = new ArrayList<>(lagerTabelData);
+
+        // Save
+        dataSaver.saveLager(vareList);
     }
 
     @FXML
     public void loadAllFromJSON() {
         DataSaver dataSaver = new DataSaver();
+
+        // Ordre //
 
         // Load all Ordre objects from the JSON file
         ArrayList<Ordre> ordreList = dataSaver.loadAllOrdre();
@@ -575,5 +561,14 @@ public class TableViewController {
         // Populate table view with the loaded data:
         ordreTabelData.clear(); // Clear existing data
         ordreTabelData.addAll(ordreList); // Add the loaded orders
+
+        // Lager Vare //
+
+        // Load all lager Vare objects from the JSON file
+        ArrayList<Vare> vareList = dataSaver.loadLager();
+
+        // Populate the table view with the loaded date
+        lagerTabelData.clear();
+        lagerTabelData.addAll(vareList);
     }
 }
