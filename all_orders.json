@@ -1,0 +1,53 @@
+[
+  {
+    "ordrenr": 1,
+    "kundeNavn": "Hans",
+    "dato": "2024-11-25",
+    "vareListe": [
+      {
+        "varenr": 1,
+        "varebeskrivelse": "Banan",
+        "amount": 35
+      },
+      {
+        "varenr": 2,
+        "varebeskrivelse": "Citron",
+        "amount": 11
+      },
+      {
+        "varenr": 3,
+        "varebeskrivelse": "Æble",
+        "amount": 25
+      }
+    ]
+  },
+  {
+    "ordrenr": 2,
+    "kundeNavn": "Søren",
+    "dato": "2024-11-25",
+    "vareListe": [
+      {
+        "varenr": 1,
+        "varebeskrivelse": "Banan",
+        "amount": 23
+      },
+      {
+        "varenr": 3,
+        "varebeskrivelse": "Æble",
+        "amount": 44
+      }
+    ]
+  },
+  {
+    "ordrenr": 3,
+    "kundeNavn": "Henrik",
+    "dato": "2024-11-25",
+    "vareListe": [
+      {
+        "varenr": 4,
+        "varebeskrivelse": "Kanin",
+        "amount": 24
+      }
+    ]
+  }
+]

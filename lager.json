@@ -1,0 +1,22 @@
+[
+  {
+    "varenr": 1,
+    "varebeskrivelse": "Banan",
+    "amount": 20
+  },
+  {
+    "varenr": 2,
+    "varebeskrivelse": "Citron",
+    "amount": 5
+  },
+  {
+    "varenr": 3,
+    "varebeskrivelse": "Æble",
+    "amount": 5
+  },
+  {
+    "varenr": 4,
+    "varebeskrivelse": "Kanin",
+    "amount": 76
+  }
+]
