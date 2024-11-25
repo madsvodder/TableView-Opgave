@@ -2,6 +2,7 @@ package com.example.tableview;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +14,18 @@ public class DataSaver {
     private static final Logger logger = Logger.getLogger(DataSaver.class.getName());
 
     // Create ObjectMapper for serialization and deserialization
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
+
+    // Enable pretty-printing
+
+    public DataSaver() {
+        objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
 
     // Save all Ordre objects into a single JSON file
     public void saveAllOrdre(ArrayList<Ordre> ordreList) {
+
         try {
             // Specify the file where all orders will be saved
             File file = new File("all_orders.json");

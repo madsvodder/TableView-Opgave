@@ -100,8 +100,6 @@ public class TableViewController {
         loadAllFromJSON();
     }
 
-
-
     // Det her skrald virker ikke
     private void redigerLinje(Vare vare) {
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -255,8 +253,6 @@ public class TableViewController {
     }
 
     // Vare Metoder //
-
-
 
     // Check if a "Vare" is already in out "Lager", so we cant add the same item.
     private boolean isVareAlreadyInLager(Vare vare) {
