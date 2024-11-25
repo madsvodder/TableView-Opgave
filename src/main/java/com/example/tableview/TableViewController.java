@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -556,32 +555,25 @@ public class TableViewController {
     }
 
     @FXML
-    public void saveToJSON() {
+    public void saveAllToJSON() {
         DataSaver dataSaver = new DataSaver();
 
-        // Ensure there is at least one order to save
-        if (ordreTabelData != null && !ordreTabelData.isEmpty()) {
-            // Save the first Ordre object from the list to JSON
-            Ordre ordreToSave = ordreTabelData.get(0); // Get the first item (you can adjust this as needed)
-            dataSaver.saveOrdre(ordreToSave);
-        } else {
-            System.out.println("No Ordre data available to save.");
-        }
+        // Convert your data list to an ArrayList to pass to the save method
+        ArrayList<Ordre> ordreList = new ArrayList<>(ordreTabelData);
+
+        // Save all orders to the JSON file
+        dataSaver.saveAllOrdre(ordreList);
     }
 
     @FXML
-    public void loadFromJSON() {
+    public void loadAllFromJSON() {
         DataSaver dataSaver = new DataSaver();
 
-        // Load the Ordre object from the JSON file
-        Ordre loadedOrdre = dataSaver.loadOrdre();
+        // Load all Ordre objects from the JSON file
+        ArrayList<Ordre> ordreList = dataSaver.loadAllOrdre();
 
-        if (loadedOrdre != null) {
-            // If successful, print and add the loaded Ordre to the ObservableList (e.g., table)
-            System.out.println("Loaded Ordre: " + loadedOrdre);
-            ordreTabelData.add(loadedOrdre);  // Add the loaded Ordre to your data list (ObservableList)
-        } else {
-            System.out.println("Failed to load Ordre from JSON.");
-        }
+        // Populate table view with the loaded data:
+        ordreTabelData.clear(); // Clear existing data
+        ordreTabelData.addAll(ordreList); // Add the loaded orders
     }
 }

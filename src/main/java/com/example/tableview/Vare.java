@@ -12,6 +12,8 @@ public class Vare implements Serializable {
     private String varebeskrivelse;
     private int amount;
 
+    public Vare() {}
+
     public Vare(int varenr, String varebeskrivelse, int amount) {
         this.varenr = varenr;
         this.varebeskrivelse = varebeskrivelse;
