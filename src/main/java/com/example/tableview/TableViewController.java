@@ -1,5 +1,8 @@
 package com.example.tableview;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -58,15 +61,36 @@ public class TableViewController {
         lagerTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         // Kolonnerne forbindes
-        kolonneVarenr.setCellValueFactory(new PropertyValueFactory<>("varenr"));
-        kolonneVarebeskrivelse.setCellValueFactory(new PropertyValueFactory<>("varebeskrivelse"));
-        kolonneLagerVarenr.setCellValueFactory(new PropertyValueFactory<>("varenr"));
-        kolonneLagerVareBeskrivelse.setCellValueFactory(new PropertyValueFactory<>("varebeskrivelse"));
-        kolonneKundeNavn.setCellValueFactory(new PropertyValueFactory<>("kundeNavn"));
-        kolonneOrdreDato.setCellValueFactory(new PropertyValueFactory<>("dato"));
-        kolonneOrdrenr.setCellValueFactory(new PropertyValueFactory<>("ordrenr"));
-        kolonneLagerVareAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        kolonneVareAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+
+        //kolonneVarenr.setCellValueFactory(new PropertyValueFactory<>("varenr"));
+        //kolonneVarebeskrivelse.setCellValueFactory(new PropertyValueFactory<>("varebeskrivelse"));
+        //kolonneLagerVarenr.setCellValueFactory(new PropertyValueFactory<>("varenr"));
+        //kolonneLagerVareBeskrivelse.setCellValueFactory(new PropertyValueFactory<>("varebeskrivelse"));
+        //kolonneKundeNavn.setCellValueFactory(new PropertyValueFactory<>("kundeNavn"));
+        //kolonneOrdreDato.setCellValueFactory(new PropertyValueFactory<>("dato"));
+        //kolonneOrdrenr.setCellValueFactory(new PropertyValueFactory<>("ordrenr"));
+        //kolonneLagerVareAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        //kolonneVareAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+
+        kolonneVarenr.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getVarenr()));
+
+
+        kolonneVarebeskrivelse.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVarebeskrivelse()));
+
+        kolonneLagerVarenr.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getVarenr()));
+
+        kolonneLagerVareBeskrivelse.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVarebeskrivelse()));
+
+        kolonneKundeNavn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getKundeNavn()));
+
+        kolonneOrdreDato.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDato()));
+
+        kolonneOrdrenr.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getOrdrenr()));
+
+        kolonneLagerVareAmount.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getAmount()));
+
+        kolonneVareAmount.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getAmount()));
+
 
         // Sæt data i tabellerne
         vareTableView.setItems(vareTabeldata);
@@ -210,7 +234,12 @@ public class TableViewController {
             }
 
             selectedVare.setAmount(selectedVare.getAmount() - amountToAdd);
-            vareTableView.setItems(ordre.getVareListe());
+            //vareTableView.setItems(ordre.getVareListe());
+            for (Vare vare : ordre.getVareListe()) {
+                vareTableView.getItems().add(vare);
+            }
+
+
             lagerTableView.refresh();
             vareTableView.refresh();
         } else {
@@ -402,7 +431,11 @@ public class TableViewController {
     private void updateVarer() {
         Ordre selectedOrdre = ordreTableView.getSelectionModel().getSelectedItem();
         if (selectedOrdre != null) {
-            vareTableView.setItems(selectedOrdre.getVareListe());
+            //vareTableView.setItems(selectedOrdre.getVareListe());
+            vareTableView.getItems().clear();
+            for (Vare vare : selectedOrdre.getVareListe()) {
+                vareTableView.getItems().add(vare);
+            }
         }
         else {
             vareTabeldata.clear();
@@ -521,7 +554,4 @@ public class TableViewController {
             e.printStackTrace();
         }
     }
-
-
-
 }
