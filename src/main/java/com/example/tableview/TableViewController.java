@@ -216,7 +216,7 @@ public class TableViewController {
             // Avoid adding duplicates to the vareTableView using the utility method
             for (Vare vare : ordre.getVareListe()) {
                 if (!isVareInTable(vare)) {
-                    vareTableView.getItems().add(vare);
+                    vareTabeldata.add(vare);
                 }
             }
 
