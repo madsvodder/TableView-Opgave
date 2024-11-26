@@ -399,15 +399,9 @@ public class TableViewController {
     // Update "Varer" table for "Ordrer"
     private void updateVarer() {
         Ordre selectedOrdre = ordreTableView.getSelectionModel().getSelectedItem();
+        vareTabeldata.clear();
         if (selectedOrdre != null) {
-            //vareTableView.setItems(selectedOrdre.getVareListe());
-            vareTableView.getItems().clear();
-            for (Vare vare : selectedOrdre.getVareListe()) {
-                vareTableView.getItems().add(vare);
-            }
-        }
-        else {
-            vareTabeldata.clear();
+            vareTabeldata.addAll(selectedOrdre.getVareListe());
         }
     }
 
